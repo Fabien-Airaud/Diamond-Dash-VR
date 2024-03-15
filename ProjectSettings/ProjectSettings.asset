@@ -824,12 +824,12 @@ PlayerSettings:
   hmiLogStartupTiming: 0
   hmiCpuConfiguration: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 2
   windowsGamepadBackendHint: 0
   cloudProjectId: c8cc3d71-8860-4dc2-ba0c-41eaa358ddd0
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
+  projectName: Diamond-Dash-VR
   organizationId: airaudfabien
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
