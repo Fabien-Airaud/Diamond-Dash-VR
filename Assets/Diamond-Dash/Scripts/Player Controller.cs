@@ -33,6 +33,9 @@ public class PlayerController : MonoBehaviour
         {
             MoveRight();
         }
+
+        // Update the xROrigin position to match the player's position
+        xROrigin.transform.position = new Vector3(transform.position.x, xROrigin.transform.position.y, xROrigin.transform.position.z);
     }
 
 
@@ -41,13 +44,11 @@ public class PlayerController : MonoBehaviour
         if (playerPosition == PlayerPosition.Middle)
         {
             transform.position = new Vector3(-xBound, transform.position.y, transform.position.z);
-            xROrigin.transform.position = new Vector3(-xBound, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Left;
         }
         else if (playerPosition == PlayerPosition.Right)
         {
             transform.position = new Vector3(0, transform.position.y, transform.position.z);
-            xROrigin.transform.position = new Vector3(0, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Middle;
         }
     }
@@ -57,13 +58,11 @@ public class PlayerController : MonoBehaviour
         if (playerPosition == PlayerPosition.Middle)
         {
             transform.position = new Vector3(xBound, transform.position.y, transform.position.z);
-            xROrigin.transform.position = new Vector3(xBound, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Right;
         }
         else if (playerPosition == PlayerPosition.Left)
         {
             transform.position = new Vector3(0, transform.position.y, transform.position.z);
-            xROrigin.transform.position = new Vector3(0, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Middle;
         }
     }
