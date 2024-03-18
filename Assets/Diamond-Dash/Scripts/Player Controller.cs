@@ -1,3 +1,4 @@
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public enum PlayerPosition
@@ -9,6 +10,8 @@ public enum PlayerPosition
 
 public class PlayerController : MonoBehaviour
 {
+    public XROrigin xROrigin;
+
     private readonly float xBound = 3.75f;
     private PlayerPosition playerPosition = PlayerPosition.Middle;
 
@@ -16,7 +19,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (xROrigin == null) xROrigin = FindObjectOfType<XROrigin>();
     }
 
     // Update is called once per frame
@@ -38,11 +41,13 @@ public class PlayerController : MonoBehaviour
         if (playerPosition == PlayerPosition.Middle)
         {
             transform.position = new Vector3(-xBound, transform.position.y, transform.position.z);
+            xROrigin.transform.position = new Vector3(-xBound, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Left;
         }
         else if (playerPosition == PlayerPosition.Right)
         {
             transform.position = new Vector3(0, transform.position.y, transform.position.z);
+            xROrigin.transform.position = new Vector3(0, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Middle;
         }
     }
@@ -52,11 +57,13 @@ public class PlayerController : MonoBehaviour
         if (playerPosition == PlayerPosition.Middle)
         {
             transform.position = new Vector3(xBound, transform.position.y, transform.position.z);
+            xROrigin.transform.position = new Vector3(xBound, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Right;
         }
         else if (playerPosition == PlayerPosition.Left)
         {
             transform.position = new Vector3(0, transform.position.y, transform.position.z);
+            xROrigin.transform.position = new Vector3(0, xROrigin.transform.position.y, xROrigin.transform.position.z);
             playerPosition = PlayerPosition.Middle;
         }
     }
