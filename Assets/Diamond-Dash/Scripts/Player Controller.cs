@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool isMoving = false;
     private PlayerPosition playerPosition = PlayerPosition.Middle;
 
-    private bool onGround = true;
+    private bool isGrounded = true;
 
 
     // Start is called before the first frame update
@@ -30,8 +30,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && !isMoving && onGround) MoveLeft();
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && !isMoving && onGround) MoveRight();
+        if (Input.GetAxis("Horizontal") > 0 && !isMoving && isGrounded) MoveRight();
+        else if (Input.GetAxis("Horizontal") < 0 && !isMoving && isGrounded) MoveLeft();
+        //if (Input.GetKeyDown(KeyCode.LeftArrow) && !isMoving && isGrounded) MoveLeft();
+        //else if (Input.GetKeyDown(KeyCode.RightArrow) && !isMoving && isGrounded) MoveRight();
 
         // Update the xROrigin position to match the player's position
         xROrigin.transform.position = new Vector3(transform.position.x, xROrigin.transform.position.y, xROrigin.transform.position.z);
@@ -42,7 +44,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            onGround = true;
+            isGrounded = true;
         }
     }
 
