@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
     private bool isMoving = false;
     private PlayerPosition playerPosition = PlayerPosition.Middle;
 
+    private bool onGround = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -28,13 +30,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftArrow) && !isMoving) MoveLeft();
-        else if (Input.GetKeyDown(KeyCode.RightArrow) && !isMoving) MoveRight();
+        if (Input.GetKeyDown(KeyCode.LeftArrow) && !isMoving && onGround) MoveLeft();
+        else if (Input.GetKeyDown(KeyCode.RightArrow) && !isMoving && onGround) MoveRight();
 
         // Update the xROrigin position to match the player's position
         xROrigin.transform.position = new Vector3(transform.position.x, xROrigin.transform.position.y, xROrigin.transform.position.z);
     }
 
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            onGround = true;
+        }
+    }
 
     private IEnumerator MovePlayerOverTime(Vector3 targetPosition)
     {
