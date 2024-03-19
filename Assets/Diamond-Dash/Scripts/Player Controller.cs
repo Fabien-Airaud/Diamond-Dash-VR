@@ -30,8 +30,8 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Horizontal") > 0 && !isMoving && isGrounded) MoveRight();
-        else if (Input.GetAxis("Horizontal") < 0 && !isMoving && isGrounded) MoveLeft();
+        if ((Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Horizontal2") > 0) && !isMoving && isGrounded) MoveRight();
+        else if ((Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Horizontal2") < 0) && !isMoving && isGrounded) MoveLeft();
         //if (Input.GetKeyDown(KeyCode.LeftArrow) && !isMoving && isGrounded) MoveLeft();
         //else if (Input.GetKeyDown(KeyCode.RightArrow) && !isMoving && isGrounded) MoveRight();
 
