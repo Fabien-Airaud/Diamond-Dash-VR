@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
                     isGrounded = false;
                     animator.SetBool("Jump", false);
                     jump = false;
-                    playerRb.AddForce(0, playerRb.mass * 15, 0, ForceMode.Impulse);
+                    //playerRb.AddForce(0, playerRb.mass * 10, 0, ForceMode.Impulse);
                 }
             }
             else if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0)
@@ -115,9 +115,9 @@ public class PlayerController : MonoBehaviour
                 jump = true;
             }
         }
-        else
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("In_Air"))
         {
-            playerRb.AddForce(0, -playerRb.mass * 20, 0);
+            playerRb.AddForce(0, -playerRb.mass * 30, 0);
             transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
