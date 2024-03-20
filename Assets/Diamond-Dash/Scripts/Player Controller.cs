@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private PlayerPosition playerPosition = PlayerPosition.Middle;
 
     private bool isGrounded = true;
+    private bool jump = false;
     private Animator animator;
 
 
@@ -34,12 +35,14 @@ public class PlayerController : MonoBehaviour
     {
         if ((Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Horizontal2") > 0) && !isMoving && isGrounded) MoveRight();
         else if ((Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Horizontal2") < 0) && !isMoving && isGrounded) MoveLeft();
-        else if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0) && isGrounded)
-        {
-            animator.SetBool("Jump", true);
-            StartCoroutine(StopJump());
-        }
-        //else if ((Input.GetAxis("Vertical") < 0 || Input.GetAxis("Vertical2") < 0) && isGrounded) animator.SetTrigger("Slide");
+
+        JumpAndVelocity();
+        //else if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0) && isGrounded)
+        //{
+        //    animator.SetBool("Jump", true);
+        //    StartCoroutine(JumpingUp());
+        //}
+        //else if ((Input.GetAxis("Vertical") < 0 || Input.GetAxis("Vertical2") < 0) && isGrounded) animator.SetTrigger("Slide
 
         // Update the xROrigin position to match the player's position
         xROrigin.transform.position = new Vector3(transform.position.x, xROrigin.transform.position.y, xROrigin.transform.position.z);
@@ -51,14 +54,8 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            animator.SetBool("IsGrounded", true);
         }
-    }
-
-    private IEnumerator StopJump()
-    {
-        WaitForSeconds wait = new(1f);
-        yield return wait;
-        animator.SetBool("Jump", false);
     }
 
     private IEnumerator MovePlayerOverTime(Vector3 targetPosition)
@@ -95,6 +92,28 @@ public class PlayerController : MonoBehaviour
             // Move the player to the right over movingTime
             StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x + xBound, transform.position.y, transform.position.z)));
             playerPosition++;
+        }
+    }
+
+    private void JumpAndVelocity()
+    {
+        if (isGrounded)
+        {
+            if (jump)
+            {
+                if (animator.GetCurrentAnimatorStateInfo(0).IsName("Start_Jump") && animator.GetCurrentAnimatorClipInfoCount(0) < 10)
+                {
+                    animator.SetBool("IsGrounded", false);
+                    isGrounded = false;
+                    animator.SetBool("Jump", false);
+                    jump = false;
+                }
+            }
+            else if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0)
+            {
+                animator.SetBool("Jump", true);
+                jump = true;
+            }
         }
     }
 }
