@@ -19,12 +19,14 @@ public class PlayerController : MonoBehaviour
     private PlayerPosition playerPosition = PlayerPosition.Middle;
 
     private bool isGrounded = true;
+    private Animator animator;
 
 
     // Start is called before the first frame update
     void Start()
     {
         if (xROrigin == null) xROrigin = FindObjectOfType<XROrigin>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -32,8 +34,12 @@ public class PlayerController : MonoBehaviour
     {
         if ((Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Horizontal2") > 0) && !isMoving && isGrounded) MoveRight();
         else if ((Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Horizontal2") < 0) && !isMoving && isGrounded) MoveLeft();
-        //if (Input.GetKeyDown(KeyCode.LeftArrow) && !isMoving && isGrounded) MoveLeft();
-        //else if (Input.GetKeyDown(KeyCode.RightArrow) && !isMoving && isGrounded) MoveRight();
+        else if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0) && isGrounded)
+        {
+            animator.SetBool("Jump", true);
+            StartCoroutine(StopJump());
+        }
+        //else if ((Input.GetAxis("Vertical") < 0 || Input.GetAxis("Vertical2") < 0) && isGrounded) animator.SetTrigger("Slide");
 
         // Update the xROrigin position to match the player's position
         xROrigin.transform.position = new Vector3(transform.position.x, xROrigin.transform.position.y, xROrigin.transform.position.z);
@@ -46,6 +52,13 @@ public class PlayerController : MonoBehaviour
         {
             isGrounded = true;
         }
+    }
+
+    private IEnumerator StopJump()
+    {
+        WaitForSeconds wait = new(1f);
+        yield return wait;
+        animator.SetBool("Jump", false);
     }
 
     private IEnumerator MovePlayerOverTime(Vector3 targetPosition)
