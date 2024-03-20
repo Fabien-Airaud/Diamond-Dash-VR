@@ -12,6 +12,7 @@ public enum PlayerPosition
 public class PlayerController : MonoBehaviour
 {
     public XROrigin xROrigin;
+    public float velocity;
 
     private readonly float xBound = 3.75f;
     private readonly float movingTime = 0.5f;
@@ -21,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = true;
     private bool jump = false;
     private Animator animator;
+    private Rigidbody playerRb;
 
 
     // Start is called before the first frame update
@@ -28,21 +30,18 @@ public class PlayerController : MonoBehaviour
     {
         if (xROrigin == null) xROrigin = FindObjectOfType<XROrigin>();
         animator = GetComponent<Animator>();
+        playerRb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        velocity = playerRb.velocity.y;
         if ((Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Horizontal2") > 0) && !isMoving && isGrounded) MoveRight();
         else if ((Input.GetAxis("Horizontal") < 0 || Input.GetAxis("Horizontal2") < 0) && !isMoving && isGrounded) MoveLeft();
 
+        // Manage the player's jump and velocity
         JumpAndVelocity();
-        //else if ((Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0) && isGrounded)
-        //{
-        //    animator.SetBool("Jump", true);
-        //    StartCoroutine(JumpingUp());
-        //}
-        //else if ((Input.GetAxis("Vertical") < 0 || Input.GetAxis("Vertical2") < 0) && isGrounded) animator.SetTrigger("Slide
 
         // Update the xROrigin position to match the player's position
         xROrigin.transform.position = new Vector3(transform.position.x, xROrigin.transform.position.y, xROrigin.transform.position.z);
@@ -107,6 +106,7 @@ public class PlayerController : MonoBehaviour
                     isGrounded = false;
                     animator.SetBool("Jump", false);
                     jump = false;
+                    playerRb.AddForce(0, playerRb.mass * 15, 0, ForceMode.Impulse);
                 }
             }
             else if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0)
@@ -114,6 +114,11 @@ public class PlayerController : MonoBehaviour
                 animator.SetBool("Jump", true);
                 jump = true;
             }
+        }
+        else
+        {
+            playerRb.AddForce(0, -playerRb.mass * 20, 0);
+            transform.rotation = Quaternion.Euler(0, 0, 0);
         }
     }
 }
