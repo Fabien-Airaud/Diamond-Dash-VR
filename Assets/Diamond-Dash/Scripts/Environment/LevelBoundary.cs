@@ -10,5 +10,5 @@ public enum RoadPosition
 
 public class LevelBoundary : MonoBehaviour
 {
-    public static float xBound = 3.75f;
+    public static float laneSize = 3.75f;
 }

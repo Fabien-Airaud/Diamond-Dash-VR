@@ -46,7 +46,7 @@ public class PlayerMove : MonoBehaviour
                 if (playerPosition != RoadPosition.Right)
                 {
                     // Move the player to the right over movingTime
-                    StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x + LevelBoundary.xBound, transform.position.y, transform.position.z)));
+                    StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x + LevelBoundary.laneSize, transform.position.y, transform.position.z)));
                     playerPosition++;
                 }
             }
@@ -55,7 +55,7 @@ public class PlayerMove : MonoBehaviour
                 if (playerPosition != RoadPosition.Left)
                 {
                     // Move the player to the left over movingTime
-                    StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x - LevelBoundary.xBound, transform.position.y, transform.position.z)));
+                    StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x - LevelBoundary.laneSize, transform.position.y, transform.position.z)));
                     playerPosition++;
                 }
             }
