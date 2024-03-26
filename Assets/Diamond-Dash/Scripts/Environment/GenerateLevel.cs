@@ -24,13 +24,23 @@ public class GenerateLevel : MonoBehaviour
         }
 
         sections = new();
+        GenerateInitialSections();
+    }
 
+    void Update()
+    {
+        
+    }
+
+
+    private void GenerateInitialSections()
+    {
         int middle = (nbSections - 1) / 2;
+
         // Generate the first sections (back)
         for (int i = middle; i > 0; i--)
         {
             int randomIndex = Random.Range(0, sectionPrefabs.Length);
-            Debug.Log("i = " + i + ";\t\tVector3(0, 0, -i * sectionSize) = (0, 0, " + (-i * sectionSize) + ")");
             sections.Enqueue(Instantiate(sectionPrefabs[randomIndex], new Vector3(0, 0, -i * sectionSize), Quaternion.identity));
         }
 
@@ -41,13 +51,7 @@ public class GenerateLevel : MonoBehaviour
         for (int i = 1; i < middle + 1; i++)
         {
             int randomIndex = Random.Range(0, sectionPrefabs.Length);
-            Debug.Log("i = " + i + ";\t\tVector3(0, 0, -i * sectionSize) = (0, 0, " + (i * sectionSize) + ")");
             sections.Enqueue(Instantiate(sectionPrefabs[randomIndex], new Vector3(0, 0, i * sectionSize), Quaternion.identity));
         }
-    }
-
-    void Update()
-    {
-        
     }
 }
