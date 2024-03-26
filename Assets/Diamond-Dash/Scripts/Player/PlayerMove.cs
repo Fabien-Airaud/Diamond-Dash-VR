@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public float runningSpeed = 3f;
     public float movingTime = 0.5f;
     private bool isMoving = false;
     private RoadPosition playerPosition;
@@ -16,6 +17,9 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
+        // Run the player forward
+        transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
+
         Move();
     }
 
