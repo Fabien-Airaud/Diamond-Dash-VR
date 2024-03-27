@@ -24,20 +24,21 @@ public class PlayerMove : MonoBehaviour
     }
 
 
-    private IEnumerator MovePlayerOverTime(Vector3 targetPosition)
+    private IEnumerator MovePlayerOverTime(float targetXPosition)
     {
         isMoving = true;
         float elapsedTime = 0;
-        Vector3 startPosition = transform.position;
+        float startxPosition = transform.position.x;
 
         while (elapsedTime < movingTime)
         {
-            transform.position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / movingTime);
+            float xPosition = Mathf.Lerp(startxPosition, targetXPosition, elapsedTime / movingTime);
+            transform.position = new Vector3(xPosition, transform.position.y, transform.position.z);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = targetPosition;
+        transform.position = new Vector3(targetXPosition, transform.position.y, transform.position.z);
         isMoving = false;
     }
 
@@ -50,7 +51,7 @@ public class PlayerMove : MonoBehaviour
                 if (playerPosition != RoadPosition.Right)
                 {
                     // Move the player to the right over movingTime
-                    StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x + LevelBoundary.laneSize, transform.position.y, transform.position.z)));
+                    StartCoroutine(MovePlayerOverTime(transform.position.x + LevelBoundary.laneSize));
                     playerPosition++;
                 }
             }
@@ -59,8 +60,8 @@ public class PlayerMove : MonoBehaviour
                 if (playerPosition != RoadPosition.Left)
                 {
                     // Move the player to the left over movingTime
-                    StartCoroutine(MovePlayerOverTime(new Vector3(transform.position.x - LevelBoundary.laneSize, transform.position.y, transform.position.z)));
-                    playerPosition++;
+                    StartCoroutine(MovePlayerOverTime(transform.position.x - LevelBoundary.laneSize));
+                    playerPosition--;
                 }
             }
         }
