@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class GenerateLevel : MonoBehaviour
 {
-    public GameObject player;
     public GameObject[] sectionPrefabs;
     public float sectionSize = 187.5f;
     public int nbSections = 5;
     
+    private GameObject player;
     private Queue<GameObject> sections;
     private float middleSectionZPosition;
 
@@ -24,10 +24,7 @@ public class GenerateLevel : MonoBehaviour
             Debug.LogError("Number of sections must be greater than 0");
             return;
         }
-        if (player == null)
-        {
-            player = GameObject.FindGameObjectWithTag("Player");
-        }
+        player = GameObject.FindGameObjectWithTag("Player");
 
         sections = new();
         GenerateInitialSections();
