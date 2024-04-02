@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public float runningSpeed = 3f;
+    public GameObject MirrorLeft;
+    public GameObject MirrorRight;
+    public float runningSpeed = 5f;
     public float movingTime = 0.5f;
     private bool isMoving = false;
     private RoadPosition playerPosition;
@@ -17,8 +19,10 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        // Run the player forward
+        // Run the player forward and the two mirrors
         transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
+        MirrorLeft.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
+        MirrorRight.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
 
         Move();
     }
