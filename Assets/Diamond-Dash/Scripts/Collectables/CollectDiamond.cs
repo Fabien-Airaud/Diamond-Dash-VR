@@ -9,7 +9,7 @@ public class CollectDiamond : MonoBehaviour
     void Start()
     {
         GameObject levelControl = GameObject.Find("LevelControl");
-        if (diamondFX == null) diamondFX = levelControl.GetComponentsInChildren<AudioSource>()[0];
+        if (diamondFX == null) diamondFX = GameObject.Find("DiamondCollect").GetComponent<AudioSource>();
         collectableControl = levelControl.GetComponent<CollectableControl>();
     }
 
