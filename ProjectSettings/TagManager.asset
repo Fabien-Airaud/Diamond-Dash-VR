@@ -8,6 +8,7 @@ TagManager:
   - Ground
   - Section
   - Collectable
+  - Obstacle
   layers:
   - Default
   - TransparentFX
