@@ -3,13 +3,17 @@ using UnityEngine;
 public class ObstacleCollision : MonoBehaviour
 {
     public AudioSource ObstacleCollisionFX;
-    private GameObject player;
+    public GameObject player;
+    public GameObject playerModel;
+    public GameObject mainCamera;
 
 
     void Start()
     {
+        if (!ObstacleCollisionFX) ObstacleCollisionFX = GameObject.Find("ObstacleCollision").GetComponent<AudioSource>();
         if (!player) player = GameObject.FindGameObjectWithTag("Player");
-        if (ObstacleCollisionFX == null) ObstacleCollisionFX = GameObject.Find("ObstacleCollision").GetComponent<AudioSource>();
+        if (!playerModel) playerModel = GameObject.Find("PlayerModel");
+        if (!mainCamera) mainCamera = GameObject.Find("XR Rig");
     }
 
 
@@ -18,8 +22,9 @@ public class ObstacleCollision : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player.GetComponent<PlayerMove>().enabled = false;
-            player.GetComponentInChildren<Animator>().SetTrigger("GameOver");
+            playerModel.GetComponent<Animator>().SetTrigger("GameOver");
             ObstacleCollisionFX.Play();
+            mainCamera.GetComponent<Animator>().enabled = true;
         }
     }
 }
