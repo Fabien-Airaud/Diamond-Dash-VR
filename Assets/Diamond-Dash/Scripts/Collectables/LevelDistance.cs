@@ -1,9 +1,9 @@
+using TMPro;
 using UnityEngine;
-//using UnityEngine.UI;
 
 public class LevelDistance : MonoBehaviour
 {
-    //public GameObject distanceCountDisplay;
+    public GameObject distanceCountText;
     private GameObject player;
     private int distanceCount = 0;
 
@@ -12,13 +12,7 @@ public class LevelDistance : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
-        InvokeRepeating(nameof(AddDistance), 0, 0.25f);
-    }
-
-
-    void Update()
-    {
-        //distanceCountDisplay.GetComponent<Text>().text = distanceCount.ToString();
+        InvokeRepeating(nameof(AddDistance), 0, 0.4f);
     }
 
 
@@ -26,5 +20,6 @@ public class LevelDistance : MonoBehaviour
     {
         distanceCount = (int)player.transform.position.z;
         Debug.Log("Distance: " + distanceCount);
+        distanceCountText.GetComponent<TextMeshProUGUI>().text = distanceCount.ToString();
     }
 }
