@@ -1,16 +1,16 @@
+using TMPro;
 using UnityEngine;
-//using UnityEngine.UI;
 
 public class CollectableControl : MonoBehaviour
 {
-    //public GameObject diamondCountDisplay;
+    public GameObject diamondCountText;
     private int diamondCount = 0;
 
 
-    public void AddDiamond(int nbDiamonds)
+    public void AddDiamond(int nbDiamond)
     {
-        diamondCount += nbDiamonds;
+        diamondCount += nbDiamond;
         Debug.Log("Diamonds: " + diamondCount);
-        //diamondCountDisplay.GetComponent<Text>().text = diamondCount.ToString();
+        diamondCountText.GetComponent<TextMeshProUGUI>().text = diamondCount.ToString();
     }
 }
