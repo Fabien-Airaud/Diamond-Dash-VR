@@ -10,7 +10,6 @@ public class CollectableControl : MonoBehaviour
     public void AddDiamond(int nbDiamond)
     {
         diamondCount += nbDiamond;
-        Debug.Log("Diamonds: " + diamondCount);
         diamondCountText.GetComponent<TextMeshProUGUI>().text = diamondCount.ToString();
     }
 }
