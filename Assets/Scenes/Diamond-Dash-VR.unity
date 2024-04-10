@@ -1738,6 +1738,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diamondCountText: {fileID: 1518541887}
+  distanceCountText: {fileID: 1727640932}
   livesCountText: {fileID: 1879025012}
   startNbLives: 3
 --- !u!114 &393310735
@@ -1752,7 +1753,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd0e6fb7ca8ee4548b04fe8dea67813f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceCountText: {fileID: 1727640932}
 --- !u!114 &393310736
 MonoBehaviour:
   m_ObjectHideFlags: 0
