@@ -82,10 +82,10 @@ public class PlayerMove : MonoBehaviour
 
         CollectableControl collectableControl = levelControl.GetComponent<CollectableControl>();
         collectableControl.AddLives(-1);
+        yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dying_Backwards"));
 
         if (collectableControl.IsAlive())
         {
-            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dying_Backwards"));
             playerAnimator.SetTrigger("StandUp");
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_up"));
             Destroy(obstacle);
@@ -94,7 +94,8 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(playerAnimator.GetCurrentAnimatorStateInfo(0).length);
+            Debug.Log("Game Over");
         }
     }
 
