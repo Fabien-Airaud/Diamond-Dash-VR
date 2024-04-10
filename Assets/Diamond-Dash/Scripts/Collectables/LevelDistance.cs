@@ -19,7 +19,6 @@ public class LevelDistance : MonoBehaviour
     private void AddDistance()
     {
         distanceCount = (int)player.transform.position.z;
-        Debug.Log("Distance: " + distanceCount);
         distanceCountText.GetComponent<TextMeshProUGUI>().text = distanceCount.ToString();
     }
 }
