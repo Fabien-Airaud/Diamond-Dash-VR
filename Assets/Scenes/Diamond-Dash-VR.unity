@@ -1604,6 +1604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diamondCountText: {fileID: 1518541887}
+  LivesCountText: {fileID: 1879025012}
 --- !u!114 &393310735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5576,8 +5577,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 885ddffe08f179c418f71b4f4d543c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MirrorLeft: {fileID: 844331596}
-  MirrorRight: {fileID: 419840859}
+  mirrorLeft: {fileID: 0}
+  mirrorRight: {fileID: 0}
+  levelControl: {fileID: 0}
   runningSpeed: 5
   movingTime: 0.5
 --- !u!143 &2132949412
@@ -12312,7 +12314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c14c536a343084c418543d568b9fccd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObstacleCollisionFX: {fileID: 0}
+  obstacleCollisionFX: {fileID: 0}
   player: {fileID: 0}
   mainCamera: {fileID: 0}
 --- !u!114 &7788236336829968374

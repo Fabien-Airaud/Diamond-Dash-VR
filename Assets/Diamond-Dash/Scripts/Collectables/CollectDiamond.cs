@@ -19,7 +19,7 @@ public class CollectDiamond : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             diamondFX.Play();
-            collectableControl.AddDiamond(1);
+            collectableControl.AddDiamonds(1);
             Destroy(gameObject);
         }
     }

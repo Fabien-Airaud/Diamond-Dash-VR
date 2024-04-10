@@ -3,8 +3,9 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public GameObject MirrorLeft;
-    public GameObject MirrorRight;
+    public GameObject mirrorLeft;
+    public GameObject mirrorRight;
+    public GameObject levelControl;
     public float runningSpeed = 5f;
     public float movingTime = 0.5f;
 
@@ -16,7 +17,11 @@ public class PlayerMove : MonoBehaviour
 
     private void Start()
     {
+        if (!mirrorLeft) mirrorLeft = GameObject.Find("Mirror Left");
+        if (!mirrorRight) mirrorRight = GameObject.Find("Mirror Right");
+        if (!levelControl) levelControl = GameObject.Find("LevelControl");
         playerAnimator = GameObject.Find("PlayerModel").GetComponent<Animator>();
+
         transform.position = new Vector3(0, transform.position.y, transform.position.z);
         playerPosition = RoadPosition.Middle;
     }
@@ -35,8 +40,8 @@ public class PlayerMove : MonoBehaviour
     private void RunPlayer(float speed)
     {
         transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
-        MirrorLeft.transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
-        MirrorRight.transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
+        mirrorLeft.transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
+        mirrorRight.transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
     }
 
     private IEnumerator StartMovingPlayer(float startTime)
@@ -70,16 +75,38 @@ public class PlayerMove : MonoBehaviour
         isMoving = false;
     }
 
+    private IEnumerator ObstacleCollision(GameObject obstacle)
+    {
+        isRunning = false;
+        playerAnimator.SetTrigger("GameOver");
+
+        CollectableControl collectableControl = levelControl.GetComponent<CollectableControl>();
+        collectableControl.AddLives(-1);
+
+        if (collectableControl.IsAlive())
+        {
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Stumble_Backwards"));
+            playerAnimator.SetTrigger("StandUp");
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Up"));
+            Destroy(obstacle);
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Idle"));
+            StartMove(1f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2);
+        }
+    }
+
     public void StartMove(float startTime)
     {
         playerAnimator.SetTrigger("StartRunning");
         StartCoroutine(StartMovingPlayer(startTime));
     }
 
-    public void HitObstacle()
+    public void HitObstacle(GameObject obstacle)
     {
-        isRunning = false;
-        playerAnimator.SetTrigger("GameOver");
+        StartCoroutine(ObstacleCollision(obstacle));
     }
 
     private void Move()
