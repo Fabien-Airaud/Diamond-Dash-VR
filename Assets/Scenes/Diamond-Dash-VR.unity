@@ -1636,6 +1636,7 @@ MonoBehaviour:
   - {fileID: 1976521308}
   - {fileID: 2121145748}
   countdownCanvas: {fileID: 1450217027}
+  player: {fileID: 2132949406}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
