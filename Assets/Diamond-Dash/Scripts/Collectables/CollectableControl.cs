@@ -4,7 +4,8 @@ using UnityEngine;
 public class CollectableControl : MonoBehaviour
 {
     public GameObject diamondCountText;
-    public GameObject LivesCountText;
+    public GameObject livesCountText;
+    public int startNbLives = 3;
 
     private int diamondCount = 0;
     private int livesCount = 3;
@@ -26,7 +27,7 @@ public class CollectableControl : MonoBehaviour
     public void AddLives(int nbLives)
     {
         livesCount += nbLives;
-        LivesCountText.GetComponent<TextMeshProUGUI>().text = livesCount.ToString();
+        livesCountText.GetComponent<TextMeshProUGUI>().text = livesCount.ToString();
     }
 
     public bool IsAlive()
