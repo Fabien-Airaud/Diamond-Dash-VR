@@ -85,9 +85,9 @@ public class PlayerMove : MonoBehaviour
 
         if (collectableControl.IsAlive())
         {
-            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Stumble_Backwards"));
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dying_Backwards"));
             playerAnimator.SetTrigger("StandUp");
-            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Up"));
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_up"));
             Destroy(obstacle);
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Idle"));
             StartMove(1f);
