@@ -12,9 +12,13 @@ public class LevelStarter : MonoBehaviour
     void Start()
     {
         if (!player) player = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(Countdown());
+        StartLevel();
     }
 
+    public void StartLevel()
+    {
+        StartCoroutine(Countdown());
+    }
 
     IEnumerator Countdown()
     {
