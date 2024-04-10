@@ -6,13 +6,12 @@ public class LevelStarter : MonoBehaviour
     public float countdownTime = 1;
     public GameObject[] countdownTexts;
     public GameObject countdownCanvas;
-    
-    private PlayerMove playerMove;
+    public GameObject player;
 
 
     void Start()
     {
-        playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+        if (!player) player = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(Countdown());
     }
 
@@ -31,7 +30,7 @@ public class LevelStarter : MonoBehaviour
 
         // Last countdown text (Go)
         countdownTexts[^1].SetActive(true);
-        playerMove.StartMove(countdownTime);
+        player.GetComponent<PlayerMove>().StartMove(countdownTime);
         yield return new WaitForSeconds(countdownTime);
         countdownTexts[^1].SetActive(false);
         countdownCanvas.SetActive(false);
