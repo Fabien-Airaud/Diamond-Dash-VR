@@ -7,26 +7,46 @@ public class PlayerMove : MonoBehaviour
     public GameObject MirrorRight;
     public float runningSpeed = 5f;
     public float movingTime = 0.5f;
+
+    private bool isRunning = false;
     private bool isMoving = false;
     private RoadPosition playerPosition;
+    private Animator playerAnimator;
 
 
     private void Start()
     {
+        playerAnimator = GameObject.Find("PlayerModel").GetComponent<Animator>();
         transform.position = new Vector3(0, transform.position.y, transform.position.z);
         playerPosition = RoadPosition.Middle;
     }
 
     void Update()
     {
-        // Run the player forward and the two mirrors
-        transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
-        MirrorLeft.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
-        MirrorRight.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
+        if (isRunning)
+        {
+            // Run the player forward and the two mirrors
+            transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
+            MirrorLeft.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
+            MirrorRight.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
 
-        Move();
+            Move();
+        }
     }
 
+
+    private IEnumerator StartMovingPlayer(float startTime)
+    {
+        float elapsedTime = 0;
+
+        while (elapsedTime < startTime)
+        {
+            transform.Translate((elapsedTime/ startTime) * runningSpeed * Time.deltaTime * transform.forward, Space.World);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        isRunning = true;
+    }
 
     private IEnumerator MovePlayerOverTime(float targetXPosition)
     {
@@ -44,6 +64,12 @@ public class PlayerMove : MonoBehaviour
 
         transform.position = new Vector3(targetXPosition, transform.position.y, transform.position.z);
         isMoving = false;
+    }
+
+    public void StartMove(float startTime)
+    {
+        playerAnimator.SetTrigger("StartRunning");
+        StartCoroutine(StartMovingPlayer(startTime));
     }
 
     private void Move()
