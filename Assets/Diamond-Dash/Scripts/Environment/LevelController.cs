@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class LevelStarter : MonoBehaviour
+public class LevelController : MonoBehaviour
 {
     public float countdownTime = 1;
     public GameObject[] countdownTexts;
