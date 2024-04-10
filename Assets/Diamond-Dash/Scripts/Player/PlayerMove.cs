@@ -95,7 +95,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(playerAnimator.GetCurrentAnimatorStateInfo(0).length);
-            Debug.Log("Game Over");
+            levelControl.GetComponent<LevelController>().EndLevel();
         }
     }
 

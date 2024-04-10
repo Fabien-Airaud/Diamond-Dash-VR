@@ -6,6 +6,7 @@ public class LevelController : MonoBehaviour
     public float countdownTime = 1;
     public GameObject[] countdownTexts;
     public GameObject countdownCanvas;
+    public GameObject endCanvas;
     public GameObject player;
 
 
@@ -24,6 +25,7 @@ public class LevelController : MonoBehaviour
     {
         foreach (GameObject text in countdownTexts) text.SetActive(false);
         countdownCanvas.SetActive(true);
+        endCanvas.SetActive(false);
 
         for (int i = 0; i < countdownTexts.Length - 1; i++)
         {
@@ -38,5 +40,10 @@ public class LevelController : MonoBehaviour
         yield return new WaitForSeconds(countdownTime);
         countdownTexts[^1].SetActive(false);
         countdownCanvas.SetActive(false);
+    }
+
+    public void EndLevel()
+    {
+        endCanvas.SetActive(true);
     }
 }
