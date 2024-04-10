@@ -25,15 +25,19 @@ public class PlayerMove : MonoBehaviour
     {
         if (isRunning)
         {
-            // Run the player forward and the two mirrors
-            transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
-            MirrorLeft.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
-            MirrorRight.transform.Translate(runningSpeed * Time.deltaTime * transform.forward, Space.World);
-
+            RunPlayer(runningSpeed);
             Move();
         }
     }
 
+
+    // Run the player forward and the two mirrors
+    private void RunPlayer(float speed)
+    {
+        transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
+        MirrorLeft.transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
+        MirrorRight.transform.Translate(speed * Time.deltaTime * transform.forward, Space.World);
+    }
 
     private IEnumerator StartMovingPlayer(float startTime)
     {
@@ -41,7 +45,7 @@ public class PlayerMove : MonoBehaviour
 
         while (elapsedTime < startTime)
         {
-            transform.Translate((elapsedTime/ startTime) * runningSpeed * Time.deltaTime * transform.forward, Space.World);
+            RunPlayer((elapsedTime / startTime) * runningSpeed);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -70,6 +74,12 @@ public class PlayerMove : MonoBehaviour
     {
         playerAnimator.SetTrigger("StartRunning");
         StartCoroutine(StartMovingPlayer(startTime));
+    }
+
+    public void HitObstacle()
+    {
+        isRunning = false;
+        playerAnimator.SetTrigger("GameOver");
     }
 
     private void Move()
