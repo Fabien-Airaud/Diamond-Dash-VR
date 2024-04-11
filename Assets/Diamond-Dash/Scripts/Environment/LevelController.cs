@@ -11,11 +11,14 @@ public class LevelController : MonoBehaviour
     public GameObject mirrorLeftCanvas;
     public GameObject mirrorRightCanvas;
     public GameObject player;
+    public GameObject FadeScreen;
+
 
 
     void Start()
     {
         if (!player) player = GameObject.FindGameObjectWithTag("Player");
+        if (!FadeScreen) FadeScreen = GameObject.Find("Fade Screen");
         StartLevel();
     }
 
@@ -44,6 +47,7 @@ public class LevelController : MonoBehaviour
         mirrorLeftCanvas.SetActive(false);
         mirrorRightCanvas.SetActive(false);
         yield return new WaitForSeconds(5);
+        yield return FadeScreen.GetComponent<FadeScreen>().FadeOutRoutine();
         SceneManager.LoadScene(0);
     }
 
