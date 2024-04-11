@@ -7,6 +7,8 @@ public class LevelController : MonoBehaviour
     public GameObject[] countdownTexts;
     public GameObject countdownCanvas;
     public GameObject endCanvas;
+    public GameObject mirrorLeftCanvas;
+    public GameObject mirrorRightCanvas;
     public GameObject player;
 
 
@@ -18,15 +20,17 @@ public class LevelController : MonoBehaviour
 
     public void StartLevel()
     {
+        foreach (GameObject text in countdownTexts) text.SetActive(false);
+        countdownCanvas.SetActive(true);
+        endCanvas.SetActive(false);
+        mirrorLeftCanvas.SetActive(true);
+        mirrorRightCanvas.SetActive(true);
+
         StartCoroutine(Countdown());
     }
 
     IEnumerator Countdown()
     {
-        foreach (GameObject text in countdownTexts) text.SetActive(false);
-        countdownCanvas.SetActive(true);
-        endCanvas.SetActive(false);
-
         for (int i = 0; i < countdownTexts.Length - 1; i++)
         {
             countdownTexts[i].SetActive(true);
@@ -45,5 +49,8 @@ public class LevelController : MonoBehaviour
     public void EndLevel()
     {
         endCanvas.SetActive(true);
+        GetComponent<CollectableControl>().EndGame();
+        mirrorLeftCanvas.SetActive(false);
+        mirrorRightCanvas.SetActive(false);
     }
 }
