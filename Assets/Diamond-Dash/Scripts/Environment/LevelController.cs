@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
 {
@@ -18,18 +19,8 @@ public class LevelController : MonoBehaviour
         StartLevel();
     }
 
-    public void StartLevel()
-    {
-        foreach (GameObject text in countdownTexts) text.SetActive(false);
-        countdownCanvas.SetActive(true);
-        endCanvas.SetActive(false);
-        mirrorLeftCanvas.SetActive(true);
-        mirrorRightCanvas.SetActive(true);
 
-        StartCoroutine(Countdown());
-    }
-
-    IEnumerator Countdown()
+    private IEnumerator Countdown()
     {
         for (int i = 0; i < countdownTexts.Length - 1; i++)
         {
@@ -46,11 +37,30 @@ public class LevelController : MonoBehaviour
         countdownCanvas.SetActive(false);
     }
 
-    public void EndLevel()
+    private IEnumerable EndingLevel()
     {
         endCanvas.SetActive(true);
         GetComponent<CollectableControl>().EndGame();
         mirrorLeftCanvas.SetActive(false);
         mirrorRightCanvas.SetActive(false);
+        yield return new WaitForSeconds(5);
+        SceneManager.LoadScene(0);
+    }
+
+
+    public void StartLevel()
+    {
+        foreach (GameObject text in countdownTexts) text.SetActive(false);
+        countdownCanvas.SetActive(true);
+        endCanvas.SetActive(false);
+        mirrorLeftCanvas.SetActive(true);
+        mirrorRightCanvas.SetActive(true);
+
+        StartCoroutine(Countdown());
+    }
+
+    public void EndLevel()
+    {
+        EndingLevel();
     }
 }
