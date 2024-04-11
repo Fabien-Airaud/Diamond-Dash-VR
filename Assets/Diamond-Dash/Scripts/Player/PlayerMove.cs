@@ -14,6 +14,7 @@ public class PlayerMove : MonoBehaviour
     private bool isRunning = false;
     private bool isMoving = false;
     public bool isJumping = false;
+    public bool isSliding = false;
     private RoadPosition playerPosition;
     private Animator playerAnimator;
 
@@ -128,11 +129,12 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator ObstacleCollision(GameObject obstacle)
     {
         isRunning = false;
-        playerAnimator.SetTrigger("GameOver");
+        playerAnimator.SetBool("GameOver", true);
 
         CollectableControl collectableControl = levelControl.GetComponent<CollectableControl>();
         collectableControl.AddLives(-1);
         yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dying_Backwards"));
+        playerAnimator.SetBool("GameOver", false);
 
         if (collectableControl.IsAlive())
         {
