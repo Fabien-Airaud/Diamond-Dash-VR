@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -8,14 +9,16 @@ public class PlayerMove : MonoBehaviour
     public GameObject levelControl;
     public float runningSpeed = 5f;
     public float movingTime = 0.5f;
+    public float jumpHeight = 1f;
 
     private bool isRunning = false;
     private bool isMoving = false;
+    public bool isJumping = false;
     private RoadPosition playerPosition;
     private Animator playerAnimator;
 
 
-    private void Start()
+    void Start()
     {
         if (!mirrorLeft) mirrorLeft = GameObject.Find("Mirror Left");
         if (!mirrorRight) mirrorRight = GameObject.Find("Mirror Right");
@@ -75,6 +78,53 @@ public class PlayerMove : MonoBehaviour
         isMoving = false;
     }
 
+    private IEnumerator JumpPlayerOverTime()
+    {
+        isJumping = true;
+        playerAnimator.SetBool("Jump", true);
+        CharacterController charControl = GetComponent<CharacterController>();
+        float pYPos = transform.position.y;
+        float pJumpHeight = 0.3f;
+        float cCYPos = charControl.center.y;
+        float ccJumpHeight = 0.7f;
+
+        float jumpingTime = playerAnimator.GetNextAnimatorStateInfo(0).length;
+        yield return new WaitForSeconds(jumpingTime * 0.05f);
+
+        // Jumping up
+        float elapsedTime = 0;
+        float upPartTime = jumpingTime * 0.3f;
+        while (elapsedTime < upPartTime)
+        {
+            float pYPosition = Mathf.Lerp(pYPos, pYPos + pJumpHeight, elapsedTime / upPartTime);
+            float cCYPosition = Mathf.Lerp(cCYPos, cCYPos + ccJumpHeight, elapsedTime / upPartTime);
+            transform.position = new Vector3(transform.position.x, pYPosition, transform.position.z);
+            charControl.center = new Vector3(charControl.center.x, cCYPosition, charControl.center.z);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = new Vector3(transform.position.x, pYPos + pJumpHeight, transform.position.z);
+        charControl.center = new Vector3(charControl.center.x, cCYPos + ccJumpHeight, charControl.center.z);
+        playerAnimator.SetBool("Jump", false);
+
+        // Jumping down
+        elapsedTime = 0;
+        float downPartTime = jumpingTime * 0.30f;
+        while (elapsedTime < downPartTime)
+        {
+            float pYPosition = Mathf.Lerp(pYPos + pJumpHeight, pYPos, elapsedTime / upPartTime);
+            float cCYPosition = Mathf.Lerp(cCYPos + ccJumpHeight, cCYPos, elapsedTime / upPartTime);
+            transform.position = new Vector3(transform.position.x, pYPosition, transform.position.z);
+            charControl.center = new Vector3(charControl.center.x, cCYPosition, charControl.center.z);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = new Vector3(transform.position.x, pYPos, transform.position.z);
+        charControl.center = new Vector3(charControl.center.x, cCYPos, charControl.center.z);
+
+        isJumping = false;
+    }
+
     private IEnumerator ObstacleCollision(GameObject obstacle)
     {
         isRunning = false;
@@ -130,6 +180,14 @@ public class PlayerMove : MonoBehaviour
                     // Move the player to the left over movingTime
                     StartCoroutine(MovePlayerOverTime(transform.position.x - LevelBoundary.laneSize));
                     playerPosition--;
+                }
+            }
+            else if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0)
+            {
+                if (!isJumping)
+                {
+                    // Jump the player
+                    StartCoroutine(JumpPlayerOverTime());
                 }
             }
         }
