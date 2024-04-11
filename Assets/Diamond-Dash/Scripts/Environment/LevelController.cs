@@ -37,7 +37,7 @@ public class LevelController : MonoBehaviour
         countdownCanvas.SetActive(false);
     }
 
-    private IEnumerable EndingLevel()
+    private IEnumerator EndingLevel()
     {
         endCanvas.SetActive(true);
         GetComponent<CollectableControl>().EndGame();
@@ -61,6 +61,6 @@ public class LevelController : MonoBehaviour
 
     public void EndLevel()
     {
-        EndingLevel();
+        StartCoroutine(EndingLevel());
     }
 }
