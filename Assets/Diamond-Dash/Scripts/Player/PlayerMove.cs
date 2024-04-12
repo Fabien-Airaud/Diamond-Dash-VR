@@ -9,14 +9,14 @@ public class PlayerMove : MonoBehaviour
     public GameObject levelControl;
     public float runningSpeed = 5f;
     public float movingTime = 0.5f;
-    public float jumpHeight = 1f;
 
     private bool isRunning = false;
     private bool isMoving = false;
-    public bool isJumping = false;
-    public bool isSliding = false;
+    private bool isJumping = false;
+    private bool isSliding = false;
     private RoadPosition playerPosition;
     private Animator playerAnimator;
+    private CharacterController characterController;
 
 
     void Start()
@@ -25,6 +25,7 @@ public class PlayerMove : MonoBehaviour
         if (!mirrorRight) mirrorRight = GameObject.Find("Mirror Right");
         if (!levelControl) levelControl = GameObject.Find("LevelControl");
         playerAnimator = GameObject.Find("PlayerModel").GetComponent<Animator>();
+        characterController = GetComponent<CharacterController>();
 
         transform.position = new Vector3(0, transform.position.y, transform.position.z);
         playerPosition = RoadPosition.Middle;
@@ -83,46 +84,49 @@ public class PlayerMove : MonoBehaviour
     {
         isJumping = true;
         playerAnimator.SetBool("Jump", true);
-        CharacterController charControl = GetComponent<CharacterController>();
+        yield return null; // Wait for the next frame to get the correct jumping time
+
         float pYPos = transform.position.y;
         float pJumpHeight = 0.3f;
-        float cCYPos = charControl.center.y;
+        float cCYPos = characterController.center.y;
         float ccJumpHeight = 0.7f;
 
         float jumpingTime = playerAnimator.GetNextAnimatorStateInfo(0).length;
+        Debug.Log("Jumping time: " + jumpingTime);
         yield return new WaitForSeconds(jumpingTime * 0.05f);
 
         // Jumping up
         float elapsedTime = 0;
-        float upPartTime = jumpingTime * 0.3f;
-        while (elapsedTime < upPartTime)
+        float partTime = jumpingTime * 0.3f;
+        while (elapsedTime < partTime)
         {
-            float pYPosition = Mathf.Lerp(pYPos, pYPos + pJumpHeight, elapsedTime / upPartTime);
-            float cCYPosition = Mathf.Lerp(cCYPos, cCYPos + ccJumpHeight, elapsedTime / upPartTime);
+            float pYPosition = Mathf.Lerp(pYPos, pYPos + pJumpHeight, elapsedTime / partTime);
+            float cCYPosition = Mathf.Lerp(cCYPos, cCYPos + ccJumpHeight, elapsedTime / partTime);
             transform.position = new Vector3(transform.position.x, pYPosition, transform.position.z);
-            charControl.center = new Vector3(charControl.center.x, cCYPosition, charControl.center.z);
+            characterController.center = new Vector3(characterController.center.x, cCYPosition, characterController.center.z);
             elapsedTime += Time.deltaTime;
-            yield return null;
+            yield return null; // Wait for the next frame
         }
         transform.position = new Vector3(transform.position.x, pYPos + pJumpHeight, transform.position.z);
-        charControl.center = new Vector3(charControl.center.x, cCYPos + ccJumpHeight, charControl.center.z);
+        characterController.center = new Vector3(characterController.center.x, cCYPos + ccJumpHeight, characterController.center.z);
         playerAnimator.SetBool("Jump", false);
 
         // Jumping down
         elapsedTime = 0;
-        float downPartTime = jumpingTime * 0.30f;
-        while (elapsedTime < downPartTime)
+        partTime = jumpingTime * 0.3f;
+        while (elapsedTime < partTime)
         {
-            float pYPosition = Mathf.Lerp(pYPos + pJumpHeight, pYPos, elapsedTime / upPartTime);
-            float cCYPosition = Mathf.Lerp(cCYPos + ccJumpHeight, cCYPos, elapsedTime / upPartTime);
+            float pYPosition = Mathf.Lerp(pYPos + pJumpHeight, pYPos, elapsedTime / partTime);
+            float cCYPosition = Mathf.Lerp(cCYPos + ccJumpHeight, cCYPos, elapsedTime / partTime);
             transform.position = new Vector3(transform.position.x, pYPosition, transform.position.z);
-            charControl.center = new Vector3(charControl.center.x, cCYPosition, charControl.center.z);
+            characterController.center = new Vector3(characterController.center.x, cCYPosition, characterController.center.z);
             elapsedTime += Time.deltaTime;
-            yield return null;
+            yield return null; // Wait for the next frame
         }
         transform.position = new Vector3(transform.position.x, pYPos, transform.position.z);
-        charControl.center = new Vector3(charControl.center.x, cCYPos, charControl.center.z);
+        characterController.center = new Vector3(characterController.center.x, cCYPos, characterController.center.z);
 
+        yield return new WaitForSeconds(jumpingTime * 0.25f);
         isJumping = false;
     }
 
