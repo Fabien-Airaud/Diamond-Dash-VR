@@ -137,7 +137,7 @@ public class PlayerMove : MonoBehaviour
         yield return null; // Wait for the next frame to get the correct sliding time
 
         float cCYPos = characterController.center.y;
-        float ccSlideHeight = -0.65f;
+        float ccSlideHeight = -0.6f;
         float slidingTime = playerAnimator.GetNextAnimatorStateInfo(0).length;
 
         // Sliding down
