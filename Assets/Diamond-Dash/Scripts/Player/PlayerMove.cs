@@ -130,6 +130,48 @@ public class PlayerMove : MonoBehaviour
         isJumping = false;
     }
 
+    private IEnumerator SlidePlayerOverTime()
+    {
+        isSliding = true;
+        playerAnimator.SetBool("Slide", true);
+        yield return null; // Wait for the next frame to get the correct sliding time
+
+        float cCYPos = characterController.center.y;
+        float ccSlideHeight = -0.65f;
+        float slidingTime = playerAnimator.GetNextAnimatorStateInfo(0).length;
+
+        // Sliding down
+        float elapsedTime = 0;
+        float partTime = slidingTime * 0.25f;
+        while (elapsedTime < partTime)
+        {
+            float cCYPosition = Mathf.Lerp(cCYPos, cCYPos + ccSlideHeight, elapsedTime / partTime);
+            characterController.center = new Vector3(characterController.center.x, cCYPosition, characterController.center.z);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for the next frame
+        }
+        characterController.center = new Vector3(characterController.center.x, cCYPos + ccSlideHeight, characterController.center.z);
+
+        // Sliding
+        playerAnimator.SetBool("Slide", false);
+        yield return new WaitForSeconds(slidingTime * 0.25f);
+
+        // Sliding up
+        elapsedTime = 0;
+        partTime = slidingTime * 0.35f;
+        while (elapsedTime < partTime)
+        {
+            float cCYPosition = Mathf.Lerp(cCYPos + ccSlideHeight, cCYPos, elapsedTime / partTime);
+            characterController.center = new Vector3(characterController.center.x, cCYPosition, characterController.center.z);
+            elapsedTime += Time.deltaTime;
+            yield return null; // Wait for the next frame
+        }
+        characterController.center = new Vector3(characterController.center.x, cCYPos, characterController.center.z);
+
+        yield return new WaitForSeconds(slidingTime * 0.15f);
+        isSliding = false;
+    }
+
     private IEnumerator ObstacleCollision(GameObject obstacle)
     {
         isRunning = false;
@@ -194,6 +236,14 @@ public class PlayerMove : MonoBehaviour
                 {
                     // Jump the player
                     StartCoroutine(JumpPlayerOverTime());
+                }
+            }
+            else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Vertical2") < 0)
+            {
+                if (!isSliding)
+                {
+                    // Slide the player
+                    StartCoroutine(SlidePlayerOverTime());
                 }
             }
         }

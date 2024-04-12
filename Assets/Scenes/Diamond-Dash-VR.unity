@@ -7350,7 +7350,7 @@ MonoBehaviour:
   movingTime: 0.5
   jumpHeight: 1
   isJumping: 0
-  isJumpingDown: 0
+  isSliding: 0
 --- !u!143 &2132949412
 CharacterController:
   m_ObjectHideFlags: 0
