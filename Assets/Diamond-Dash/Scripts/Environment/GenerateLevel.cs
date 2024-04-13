@@ -46,6 +46,7 @@ public class GenerateLevel : MonoBehaviour
             return;
         }
         player = GameObject.FindGameObjectWithTag("Player");
+        Destroyer.distanceToDestroy = nbSections / 2 * sectionSize;
 
         sections = new();
         GenerateInitialSections();
@@ -88,6 +89,7 @@ public class GenerateLevel : MonoBehaviour
     {
         return lastPackZPosition < player.transform.position.z + nbSections / 2 * sectionSize;
     }
+
 
     private void GenerateInitialPacks()
     {
