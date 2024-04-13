@@ -232,7 +232,7 @@ public class PlayerMove : MonoBehaviour
             }
             else if (Input.GetAxis("Vertical") > 0 || Input.GetAxis("Vertical2") > 0)
             {
-                if (!isJumping)
+                if (!isJumping && !isSliding)
                 {
                     // Jump the player
                     StartCoroutine(JumpPlayerOverTime());
@@ -240,7 +240,7 @@ public class PlayerMove : MonoBehaviour
             }
             else if (Input.GetAxis("Vertical") < 0 || Input.GetAxis("Vertical2") < 0)
             {
-                if (!isSliding)
+                if (!isSliding && !isJumping)
                 {
                     // Slide the player
                     StartCoroutine(SlidePlayerOverTime());
