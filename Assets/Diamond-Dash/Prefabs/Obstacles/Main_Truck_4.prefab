@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3476300865414700724}
   m_Layer: 0
   m_Name: Main_Truck_4
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

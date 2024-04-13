@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8441372764470427517}
   m_Layer: 0
   m_Name: Big_Road_Sing_1
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
