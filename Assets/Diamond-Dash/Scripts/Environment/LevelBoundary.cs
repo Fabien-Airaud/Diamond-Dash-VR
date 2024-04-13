@@ -3,7 +3,7 @@ using UnityEngine;
 
 public enum RoadPosition
 {
-    Left,
+    Left = -1,
     Middle,
     Right
 }
