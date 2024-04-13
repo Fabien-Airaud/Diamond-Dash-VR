@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 839128742265059406}
   - component: {fileID: 1425854148995429231}
   - component: {fileID: 7394172547250004308}
+  - component: {fileID: 3612623374928359268}
   m_Layer: 0
   m_Name: Road_Barrier
   m_TagString: Obstacle
@@ -122,3 +123,16 @@ MonoBehaviour:
   obstacleCollisionFX: {fileID: 0}
   player: {fileID: 0}
   mainCamera: {fileID: 0}
+--- !u!114 &3612623374928359268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8921642946630716086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea4a428c3f323f04fb0227a7083787f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
