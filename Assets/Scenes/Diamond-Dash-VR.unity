@@ -1721,10 +1721,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05cc97fee57fc684d8c1ccd8a41037cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   sectionPrefabs:
   - {fileID: 7933061858857135585, guid: 5368f64ef13c64748b74b9039d5b6823, type: 3}
   sectionSize: 187.5
   nbSections: 5
+  packsMinDistance: 15
+  pack1LaneAvoidable:
+  - {fileID: 3104963334012044503, guid: 7366c2b66bdb9944e8f20bbd5e1b7af7, type: 3}
+  - {fileID: 7229481754497664024, guid: 89d7d82e84ecaf44a93e682fe1bea56d, type: 3}
+  - {fileID: 5294554475823710042, guid: 642792a3cd919194ea70e86b8df5bff6, type: 3}
+  - {fileID: 8807166256449018913, guid: bda9b40719ba68948984d56f8126aaef, type: 3}
+  - {fileID: 2568991753703229699, guid: 232f4e6fa639ca84584f1296bccbd3ad, type: 3}
+  - {fileID: 8921642946630716086, guid: fd23fefd1e6b14a4691550a9e138850b, type: 3}
+  - {fileID: 1972203358818389839, guid: be91be3574c11174e8bb2473985610c6, type: 3}
+  - {fileID: 4216555357161551966, guid: 2a93734af29154f4089146ac341c7a04, type: 3}
+  pack1LaneNonAvoidable:
+  - {fileID: 6763355754232551559, guid: 6edd948762854194885e36918ee6d930, type: 3}
+  - {fileID: 6687618791489608592, guid: 6ce624eeaf000d04da61a95c598db1a8, type: 3}
+  - {fileID: 1627016140829782296, guid: 63f32a460950a134baf337551923e9a8, type: 3}
+  - {fileID: 8763498654110081759, guid: a3b3a2cb6863670458e380d70faa4d7d, type: 3}
+  pack2LanesAvoidable:
+  - {fileID: 2630071756789897297, guid: d14de4f2a164d844dae9bc4faf247cb1, type: 3}
+  - {fileID: 1195374980110869802, guid: f04a557273e25b3498b65f2362e7b282, type: 3}
+  - {fileID: 7215354668930528913, guid: 9d0c173faee1f7c40abbfecde447be30, type: 3}
+  - {fileID: 5732249320988296540, guid: 92e7b40f86c4bf94eb7acb0d1eeae1fe, type: 3}
+  pack2LanesNonAvoidable:
+  - {fileID: 3959618013735265475, guid: baf75a4205646874ab33685a435c8607, type: 3}
+  - {fileID: 5709966511244539244, guid: e0e9c7b60ffbac443b27aa40fc1e933a, type: 3}
+  - {fileID: 2209917440435109691, guid: 0435c6c723c101540900d6b87b8a1492, type: 3}
+  - {fileID: 3619385739278862663, guid: afe513a65610c0445a4fba9cf0e8f420, type: 3}
+  - {fileID: 5651928077664560746, guid: 104f8aa19a9be854f9624fe0ae2a3a23, type: 3}
+  - {fileID: 1043409573355794402, guid: 951f94561b2681241ab387759803db2c, type: 3}
+  pack3LanesAvoidable:
+  - {fileID: 804626485081562104, guid: ca39755123eaa7d4c978d9fab341edc4, type: 3}
+  - {fileID: 4152836434295726189, guid: 751f54444f951574e8e20af1ccc2a72d, type: 3}
+  - {fileID: 8693181856365268903, guid: cfba19cf607051d4f850c863b74c8503, type: 3}
+  - {fileID: 7502551660467453976, guid: de13d138563d970479f3b7157cf4eb91, type: 3}
+  - {fileID: 5000227140581063443, guid: 0caf994c504f5654ea428c94a9fc96bb, type: 3}
+  - {fileID: 5635723134876756385, guid: e1e48e3a5188abc42a47810336c5b820, type: 3}
+  - {fileID: 2275642957035787487, guid: c89bcaed392083b42acaa92f7c127074, type: 3}
+  - {fileID: 4313962956569052405, guid: 72432f5409028d348b2e4a38e114927b, type: 3}
+  - {fileID: 9098234017846312445, guid: 52babf4c083b1584cbf1fee31c9fd110, type: 3}
+  pack3LanesNonAvoidable:
+  - {fileID: 8450007386782048926, guid: ba36918d62acfc84f84b15679049d517, type: 3}
 --- !u!114 &393310734
 MonoBehaviour:
   m_ObjectHideFlags: 0
