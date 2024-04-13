@@ -1,15 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GenerateLevel : MonoBehaviour
 {
+    public GameObject player;
     public GameObject[] sectionPrefabs;
     public float sectionSize = 187.5f;
     public int nbSections = 5;
 
-    public float packsMinDistance = 10f;
+    public float packsMinDistance = 15f;
     public GameObject[] pack1LaneAvoidable;
     public GameObject[] pack1LaneNonAvoidable;
     public GameObject[] pack2LanesAvoidable;
@@ -17,7 +17,6 @@ public class GenerateLevel : MonoBehaviour
     public GameObject[] pack3LanesAvoidable;
     public GameObject[] pack3LanesNonAvoidable;
     
-    private GameObject player;
     private Queue<GameObject> sections;
     private float middleSectionZPosition;
     private float lastPackZPosition;
@@ -35,6 +34,7 @@ public class GenerateLevel : MonoBehaviour
 
     void Start()
     {
+        if (!player) player = GameObject.FindGameObjectWithTag("Player");
         if (sectionPrefabs.Length == 0)
         {
             Debug.LogError("No section prefabs found");
@@ -49,7 +49,7 @@ public class GenerateLevel : MonoBehaviour
 
         sections = new();
         GenerateInitialSections();
-        GeneratePack();
+        GenerateInitialPacks();
     }
 
     void Update()
@@ -83,6 +83,12 @@ public class GenerateLevel : MonoBehaviour
         }
     }
 
+    private void GenerateInitialPacks()
+    {
+        lastPackZPosition = 30;
+        while (lastPackZPosition < player.transform.position.z + nbSections / 2 * sectionSize) GeneratePack();
+    }
+
     private void UpdateSections()
     {
         if (player.transform.position.z > middleSectionZPosition + sectionSize / 2)
@@ -113,25 +119,8 @@ public class GenerateLevel : MonoBehaviour
         return roadPositions[random];
     }
 
-    private void GeneratePack1Lane()
-    {
-        List<GameObject> pack = new(pack1LaneAvoidable);
-        pack.AddRange(pack1LaneNonAvoidable);
-        if (pack.Count == 0) return;
-
-        float zPosition = lastPackZPosition + packsMinDistance;
-        RoadPosition roadPosition = GetRandomRoadPosition(new RoadPosition[0]);
-        GameObject gameObject = pack[UnityEngine.Random.Range(0, pack.Count)];
-        Vector3 position = new Vector3(LevelBoundary.laneSize * (int)roadPosition, 0, zPosition) + gameObject.transform.position;
-
-        Instantiate(gameObject, position, gameObject.transform.rotation);
-        lastPackZPosition = zPosition;
-    }
-
     private void GeneratePack()
     {
-        if (player.transform.position.z + nbSections * sectionSize < lastPackZPosition) return;
-
         PackChoice packChoice = PackChoice.PACK1_LANE;
         //PackChoice packChoice = GetPackChoice();
         switch (packChoice)
@@ -155,5 +144,20 @@ public class GenerateLevel : MonoBehaviour
                 Debug.LogError("Pack choice not found");
                 break;
         }
+    }
+
+    private void GeneratePack1Lane()
+    {
+        List<GameObject> pack = new(pack1LaneAvoidable);
+        pack.AddRange(pack1LaneNonAvoidable);
+        if (pack.Count == 0) return;
+
+        float zPosition = lastPackZPosition + UnityEngine.Random.Range(packsMinDistance, packsMinDistance*2);
+        RoadPosition roadPosition = GetRandomRoadPosition(new RoadPosition[0]);
+        GameObject gameObject = pack[UnityEngine.Random.Range(0, pack.Count)];
+        Vector3 position = new Vector3(LevelBoundary.laneSize * (int)roadPosition, 0, zPosition) + gameObject.transform.position;
+
+        Instantiate(gameObject, position, gameObject.transform.rotation);
+        lastPackZPosition = zPosition;
     }
 }
