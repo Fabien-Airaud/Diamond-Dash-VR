@@ -3,7 +3,7 @@ using UnityEngine;
 public class Destroyer : MonoBehaviour
 {
     public GameObject player;
-    public static float distanceToDestroy = 500f;
+    public static float distanceToDestroy = 100;
 
 
     void Start()

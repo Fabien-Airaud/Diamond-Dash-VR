@@ -46,7 +46,7 @@ public class GenerateLevel : MonoBehaviour
             return;
         }
         player = GameObject.FindGameObjectWithTag("Player");
-        Destroyer.distanceToDestroy = nbSections / 2 * sectionSize;
+        Destroyer.distanceToDestroy = sectionSize / 2;
 
         sections = new();
         GenerateInitialSections();
