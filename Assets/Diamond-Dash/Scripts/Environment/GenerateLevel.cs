@@ -55,6 +55,7 @@ public class GenerateLevel : MonoBehaviour
     void Update()
     {
         UpdateSections();
+        if (CanGeneratePack()) GeneratePack();
     }
 
 
@@ -83,10 +84,15 @@ public class GenerateLevel : MonoBehaviour
         }
     }
 
+    private bool CanGeneratePack()
+    {
+        return lastPackZPosition < player.transform.position.z + nbSections / 2 * sectionSize;
+    }
+
     private void GenerateInitialPacks()
     {
         lastPackZPosition = 30;
-        while (lastPackZPosition < player.transform.position.z + nbSections / 2 * sectionSize) GeneratePack();
+        while (CanGeneratePack()) GeneratePack();
     }
 
     private void UpdateSections()
@@ -121,25 +127,25 @@ public class GenerateLevel : MonoBehaviour
 
     private void GeneratePack()
     {
-        PackChoice packChoice = PackChoice.PACK1_LANE;
-        //PackChoice packChoice = GetPackChoice();
+        //PackChoice packChoice = PackChoice.PACK1_LANE;
+        PackChoice packChoice = GetPackChoice();
         switch (packChoice)
         {
             case PackChoice.PACK1_LANE:
                 GeneratePack1Lane();
                 break;
-            //case PackChoice.PACK2_LANES:
-            //    GeneratePack2Lanes();
-            //    break;
-            //case PackChoice.PACK3_LANES:
-            //    GeneratePack3Lanes();
-            //    break;
-            //case PackChoice.PACK2_1_LANE:
-            //    GeneratePack2Lanes1Lane();
-            //    break;
-            //case PackChoice.PACK3_1_LANE_MIN1_AVOIDABLE:
-            //    GeneratePack3Lanes1LaneMin1Avoidable();
-            //    break;
+            case PackChoice.PACK2_LANES:
+                GeneratePack2Lanes();
+                break;
+            case PackChoice.PACK3_LANES:
+                GeneratePack3Lanes();
+                break;
+            case PackChoice.PACK2_1_LANE:
+                GeneratePack2Lanes1Lane();
+                break;
+            case PackChoice.PACK3_1_LANE_MIN1_AVOIDABLE:
+                GeneratePack3Lanes1LaneMin1Avoidable();
+                break;
             default:
                 Debug.LogError("Pack choice not found");
                 break;
@@ -158,6 +164,76 @@ public class GenerateLevel : MonoBehaviour
         Vector3 position = new Vector3(LevelBoundary.laneSize * (int)roadPosition, 0, zPosition) + gameObject.transform.position;
 
         Instantiate(gameObject, position, gameObject.transform.rotation);
+        lastPackZPosition = zPosition;
+    }
+
+    private void GeneratePack2Lanes()
+    {
+        List<GameObject> pack = new(pack2LanesAvoidable);
+        pack.AddRange(pack2LanesNonAvoidable);
+        if (pack.Count == 0) return;
+
+        float zPosition = lastPackZPosition + UnityEngine.Random.Range(packsMinDistance, packsMinDistance * 2);
+        GameObject gameObject = pack[UnityEngine.Random.Range(0, pack.Count)];
+        Vector3 position = new Vector3(0, 0, zPosition) + gameObject.transform.position;
+
+        Instantiate(gameObject, position, gameObject.transform.rotation);
+        lastPackZPosition = zPosition;
+    }
+
+    private void GeneratePack3Lanes()
+    {
+        List<GameObject> pack = new(pack3LanesAvoidable);
+        pack.AddRange(pack3LanesNonAvoidable);
+        if (pack.Count == 0) return;
+
+        float zPosition = lastPackZPosition + UnityEngine.Random.Range(packsMinDistance, packsMinDistance * 2);
+        GameObject gameObject = pack[UnityEngine.Random.Range(0, pack.Count)];
+        Vector3 position = new Vector3(0, 0, zPosition) + gameObject.transform.position;
+
+        Instantiate(gameObject, position, gameObject.transform.rotation);
+        lastPackZPosition = zPosition;
+    }
+
+    private void GeneratePack2Lanes1Lane()
+    {
+        List<GameObject> pack = new(pack1LaneAvoidable);
+        pack.AddRange(pack1LaneNonAvoidable);
+        if (pack.Count == 0) return;
+
+        float zPosition = lastPackZPosition + UnityEngine.Random.Range(packsMinDistance, packsMinDistance * 2);
+        RoadPosition roadPosition1 = GetRandomRoadPosition(new RoadPosition[0]);
+        RoadPosition roadPosition2 = GetRandomRoadPosition(new RoadPosition[] { roadPosition1 });
+        GameObject gameObject1 = pack[UnityEngine.Random.Range(0, pack.Count)];
+        GameObject gameObject2 = pack[UnityEngine.Random.Range(0, pack.Count)];
+        Vector3 position1 = new Vector3(LevelBoundary.laneSize * (int)roadPosition1, 0, zPosition) + gameObject1.transform.position;
+        Vector3 position2 = new Vector3(LevelBoundary.laneSize * (int)roadPosition2, 0, zPosition) + gameObject2.transform.position;
+
+        Instantiate(gameObject1, position1, gameObject1.transform.rotation);
+        Instantiate(gameObject2, position2, gameObject2.transform.rotation);
+        lastPackZPosition = zPosition;
+    }
+
+    private void GeneratePack3Lanes1LaneMin1Avoidable()
+    {
+        List<GameObject> pack = new(pack1LaneAvoidable);
+        pack.AddRange(pack1LaneNonAvoidable);
+        if (pack.Count == 0) return;
+
+        float zPosition = lastPackZPosition + UnityEngine.Random.Range(packsMinDistance, packsMinDistance * 2);
+        RoadPosition roadPosition1 = GetRandomRoadPosition(new RoadPosition[0]);
+        RoadPosition roadPosition2 = GetRandomRoadPosition(new RoadPosition[] { roadPosition1 });
+        RoadPosition roadPosition3 = GetRandomRoadPosition(new RoadPosition[] { roadPosition1, roadPosition2 });
+        GameObject gameObject1 = pack[UnityEngine.Random.Range(0, pack.Count)];
+        GameObject gameObject2 = pack[UnityEngine.Random.Range(0, pack.Count)];
+        GameObject gameObject3 = pack[UnityEngine.Random.Range(0, pack.Count)];
+        Vector3 position1 = new Vector3(LevelBoundary.laneSize * (int)roadPosition1, 0, zPosition) + gameObject1.transform.position;
+        Vector3 position2 = new Vector3(LevelBoundary.laneSize * (int)roadPosition2, 0, zPosition) + gameObject2.transform.position;
+        Vector3 position3 = new Vector3(LevelBoundary.laneSize * (int)roadPosition3, 0, zPosition) + gameObject3.transform.position;
+
+        Instantiate(gameObject1, position1, gameObject1.transform.rotation);
+        Instantiate(gameObject2, position2, gameObject2.transform.rotation);
+        Instantiate(gameObject3, position3, gameObject3.transform.rotation);
         lastPackZPosition = zPosition;
     }
 }
