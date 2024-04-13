@@ -226,7 +226,7 @@ public class GenerateLevel : MonoBehaviour
         RoadPosition roadPosition1 = GetRandomRoadPosition(new RoadPosition[0]);
         RoadPosition roadPosition2 = GetRandomRoadPosition(new RoadPosition[] { roadPosition1 });
         RoadPosition roadPosition3 = GetRandomRoadPosition(new RoadPosition[] { roadPosition1, roadPosition2 });
-        GameObject gameObject1 = pack[UnityEngine.Random.Range(0, pack.Count)];
+        GameObject gameObject1 = pack1LaneAvoidable[UnityEngine.Random.Range(0, pack1LaneAvoidable.Length)]; // Must have at least one avoidable
         GameObject gameObject2 = pack[UnityEngine.Random.Range(0, pack.Count)];
         GameObject gameObject3 = pack[UnityEngine.Random.Range(0, pack.Count)];
         Vector3 position1 = new Vector3(LevelBoundary.laneSize * (int)roadPosition1, 0, zPosition) + gameObject1.transform.position;
