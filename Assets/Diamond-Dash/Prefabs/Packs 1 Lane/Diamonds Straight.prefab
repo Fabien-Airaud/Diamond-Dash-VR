@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5969346307466553008}
   m_Layer: 0
-  m_Name: Diamond Straight
+  m_Name: Diamonds Straight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
