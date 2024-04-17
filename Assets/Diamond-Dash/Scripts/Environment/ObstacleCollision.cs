@@ -19,7 +19,9 @@ public class ObstacleCollision : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            player.GetComponent<PlayerMove>().HitObstacle(gameObject);
+            if (CompareTag("Obstacle")) player.GetComponent<PlayerMove>().HitObstacle(gameObject);
+            if (CompareTag("Vehicle")) player.GetComponent<PlayerMove>().HitVehicle(gameObject);
+
             obstacleCollisionFX.Play();
             mainCamera.GetComponent<Animator>().SetTrigger("Shake");
         }
