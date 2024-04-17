@@ -9,6 +9,7 @@ TagManager:
   - Section
   - Collectable
   - Obstacle
+  - Vehicle
   layers:
   - Default
   - TransparentFX
