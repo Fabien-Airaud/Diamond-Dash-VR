@@ -175,18 +175,43 @@ public class PlayerMove : MonoBehaviour
     private IEnumerator ObstacleCollision(GameObject obstacle)
     {
         isRunning = false;
-        playerAnimator.SetBool("GameOver", true);
+        playerAnimator.SetBool("DieBack", true);
 
         CollectableControl collectableControl = levelControl.GetComponent<CollectableControl>();
         collectableControl.AddLives(-1);
         yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Dying_Backwards"));
-        playerAnimator.SetBool("GameOver", false);
+        playerAnimator.SetBool("DieBack", false);
 
         if (collectableControl.IsAlive())
         {
             playerAnimator.SetTrigger("StandUp");
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_up"));
             Destroy(obstacle);
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Idle"));
+            StartMove(1f);
+        }
+        else
+        {
+            yield return new WaitForSeconds(playerAnimator.GetCurrentAnimatorStateInfo(0).length);
+            levelControl.GetComponent<LevelController>().EndLevel();
+        }
+    }
+
+    private IEnumerator VehicleCollision(GameObject vehicle)
+    {
+        isRunning = false;
+        playerAnimator.SetBool("DieFront", true);
+
+        CollectableControl collectableControl = levelControl.GetComponent<CollectableControl>();
+        collectableControl.AddLives(-1);
+        yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Fall_Flat"));
+        playerAnimator.SetBool("DieFront", false);
+
+        if (collectableControl.IsAlive())
+        {
+            playerAnimator.SetTrigger("StandUp");
+            yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Getting_Up"));
+            Destroy(vehicle);
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Idle"));
             StartMove(1f);
         }
@@ -205,7 +230,12 @@ public class PlayerMove : MonoBehaviour
 
     public void HitObstacle(GameObject obstacle)
     {
-        StartCoroutine(ObstacleCollision(obstacle));
+        if (isRunning) StartCoroutine(ObstacleCollision(obstacle));
+    }
+
+    public void HitVehicle(GameObject vehicle)
+    {
+        if (isRunning) StartCoroutine(VehicleCollision(vehicle));
     }
 
     private void Move()
