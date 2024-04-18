@@ -193,6 +193,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(playerAnimator.GetCurrentAnimatorStateInfo(0).length);
+            obstacle.GetComponent<Destroyer>().Disappear();
             levelControl.GetComponent<LevelController>().EndLevel();
         }
     }
