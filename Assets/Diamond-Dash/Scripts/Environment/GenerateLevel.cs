@@ -17,7 +17,7 @@ public class GenerateLevel : MonoBehaviour
     public GameObject[] pack3LanesAvoidable;
     public GameObject[] pack3LanesNonAvoidable;
 
-    public float vehicleMinDistance = 100f;
+    public float vehicleMinDistance = 65f;
     public GameObject[] vehiclesPrefabs;
     
     private Queue<GameObject> sections;

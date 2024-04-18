@@ -1765,6 +1765,9 @@ MonoBehaviour:
   - {fileID: 9098234017846312445, guid: 52babf4c083b1584cbf1fee31c9fd110, type: 3}
   pack3LanesNonAvoidable:
   - {fileID: 8450007386782048926, guid: ba36918d62acfc84f84b15679049d517, type: 3}
+  vehicleMinDistance: 65
+  vehiclesPrefabs:
+  - {fileID: 7937266619798343071, guid: a7b7331ba8114b54fb5cbc062cf7d8ba, type: 3}
 --- !u!114 &393310734
 MonoBehaviour:
   m_ObjectHideFlags: 0
