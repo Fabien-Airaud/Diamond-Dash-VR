@@ -219,6 +219,7 @@ public class PlayerMove : MonoBehaviour
         else
         {
             yield return new WaitForSeconds(playerAnimator.GetCurrentAnimatorStateInfo(0).length);
+            vehicle.GetComponent<Destroyer>().Disappear();
             levelControl.GetComponent<LevelController>().EndLevel();
         }
     }
