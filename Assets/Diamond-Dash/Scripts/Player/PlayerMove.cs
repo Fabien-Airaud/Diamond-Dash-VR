@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -92,7 +91,6 @@ public class PlayerMove : MonoBehaviour
         float ccJumpHeight = 0.7f;
 
         float jumpingTime = playerAnimator.GetNextAnimatorStateInfo(0).length;
-        Debug.Log("Jumping time: " + jumpingTime);
         yield return new WaitForSeconds(jumpingTime * 0.05f);
 
         // Jumping up
@@ -186,7 +184,7 @@ public class PlayerMove : MonoBehaviour
         {
             playerAnimator.SetTrigger("StandUp");
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_up"));
-            Destroy(obstacle);
+            obstacle.GetComponent<Destroyer>().Disappear();
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Idle"));
             StartMove(1f);
         }
@@ -211,7 +209,7 @@ public class PlayerMove : MonoBehaviour
         {
             playerAnimator.SetTrigger("StandUp");
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Getting_Up"));
-            Destroy(vehicle);
+            vehicle.GetComponent<Destroyer>().Disappear();
             yield return new WaitUntil(() => playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Standing_Idle"));
             StartMove(1f);
         }
