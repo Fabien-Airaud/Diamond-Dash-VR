@@ -40,6 +40,8 @@ public class PlayerMove : MonoBehaviour
     }
 
 
+    public bool IsRunning() { return isRunning; }
+
     // Run the player forward and the two mirrors
     private void RunPlayer(float speed)
     {
