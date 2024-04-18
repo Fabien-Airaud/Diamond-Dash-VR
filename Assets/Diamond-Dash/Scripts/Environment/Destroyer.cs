@@ -4,7 +4,7 @@ using UnityEngine;
 public class Destroyer : MonoBehaviour
 {
     public GameObject player;
-    public float distanceToDestroy = 10;
+    public float distanceToDestroy = 5;
     public float timeToDisappear = 1.5f;
 
     private bool isDisappearing = false;
