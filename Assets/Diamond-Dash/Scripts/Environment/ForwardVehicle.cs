@@ -3,21 +3,16 @@ using UnityEngine;
 public class ForwardVehicle : MonoBehaviour
 {
     public float speed = 10f;
+    public PlayerMove playerMove;
 
-    private bool isMoving = true;
 
+    void Start()
+    {
+        if (!playerMove) playerMove = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>();
+    }
     
     void Update()
     {
-        if (isMoving) transform.Translate(speed * Time.deltaTime * Vector3.forward);
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isMoving = false;
-        }
+        if (playerMove.IsRunning()) transform.Translate(speed * Time.deltaTime * Vector3.forward);
     }
 }
