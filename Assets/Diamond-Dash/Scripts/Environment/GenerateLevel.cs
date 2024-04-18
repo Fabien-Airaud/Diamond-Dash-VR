@@ -17,7 +17,7 @@ public class GenerateLevel : MonoBehaviour
     public GameObject[] pack3LanesAvoidable;
     public GameObject[] pack3LanesNonAvoidable;
 
-    public float vehicleMinDistance = 65f;
+    public float vehicleMinDistance = 50f;
     public GameObject[] vehiclesPrefabs;
     
     private Queue<GameObject> sections;
@@ -109,7 +109,7 @@ public class GenerateLevel : MonoBehaviour
     private void GenerateInitialVehicles()
     {
         lastVehicleZPosition = player.transform.position.z - nbSections / 2 * sectionSize;
-        while (lastVehicleZPosition < -150)
+        while (lastVehicleZPosition < -125)
         {
             GenerateVehicle();
             lastVehicleZPosition += vehicleMinDistance;
@@ -262,7 +262,7 @@ public class GenerateLevel : MonoBehaviour
 
     private void GenerateVehicle()
     {
-        float zPosition = lastVehicleZPosition + UnityEngine.Random.Range(vehicleMinDistance, vehicleMinDistance * 2);
+        float zPosition = lastVehicleZPosition + UnityEngine.Random.Range(vehicleMinDistance, vehicleMinDistance * 1.5f);
         RoadPosition roadPosition = GetRandomRoadPosition(new RoadPosition[0]);
         int random = UnityEngine.Random.Range(0, vehiclesPrefabs.Length);
         Vector3 position = new Vector3(LevelBoundary.laneSize * (int)roadPosition, 0, zPosition) + gameObject.transform.position;
