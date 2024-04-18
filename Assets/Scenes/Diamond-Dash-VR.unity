@@ -1767,7 +1767,10 @@ MonoBehaviour:
   - {fileID: 8450007386782048926, guid: ba36918d62acfc84f84b15679049d517, type: 3}
   vehicleMinDistance: 50
   vehiclesPrefabs:
+  - {fileID: 8388063909451423462, guid: 967be28ddc50a2c45aa6dbe043160114, type: 3}
   - {fileID: 7937266619798343071, guid: a7b7331ba8114b54fb5cbc062cf7d8ba, type: 3}
+  - {fileID: 7818822134926316058, guid: fac66290e4270c845842b43ce0adb1d5, type: 3}
+  - {fileID: 3455696883896501802, guid: c6c6a201b26c03a42a43b171abe7ed92, type: 3}
 --- !u!114 &393310734
 MonoBehaviour:
   m_ObjectHideFlags: 0
