@@ -46,6 +46,8 @@ public class LevelController : MonoBehaviour
         GetComponent<CollectableControl>().EndGame();
         mirrorLeftCanvas.SetActive(false);
         mirrorRightCanvas.SetActive(false);
+
+        endCanvas.transform.position = new Vector3(0, endCanvas.transform.position.y, endCanvas.transform.position.z);
         yield return new WaitForSeconds(5);
         yield return FadeScreen.GetComponent<FadeScreen>().FadeOutRoutine();
         SceneManager.LoadScene(0);
