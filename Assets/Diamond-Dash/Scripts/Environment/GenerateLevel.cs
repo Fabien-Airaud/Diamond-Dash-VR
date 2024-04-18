@@ -16,10 +16,14 @@ public class GenerateLevel : MonoBehaviour
     public GameObject[] pack2LanesNonAvoidable;
     public GameObject[] pack3LanesAvoidable;
     public GameObject[] pack3LanesNonAvoidable;
+
+    public float vehicleMinDistance = 100f;
+    public GameObject[] vehiclesPrefabs;
     
     private Queue<GameObject> sections;
     private float middleSectionZPosition;
     private float lastPackZPosition;
+    private float lastVehicleZPosition;
 
     private enum PackChoice
     {
@@ -46,17 +50,18 @@ public class GenerateLevel : MonoBehaviour
             return;
         }
         player = GameObject.FindGameObjectWithTag("Player");
-        Destroyer.distanceToDestroy = sectionSize / 2;
 
         sections = new();
         GenerateInitialSections();
         GenerateInitialPacks();
+        GenerateInitialVehicles();
     }
 
     void Update()
     {
         UpdateSections();
         if (CanGeneratePack()) GeneratePack();
+        if (CanGenerateVehicle()) GenerateVehicle();
     }
 
 
@@ -90,11 +95,27 @@ public class GenerateLevel : MonoBehaviour
         return lastPackZPosition < player.transform.position.z + nbSections / 2 * sectionSize;
     }
 
-
     private void GenerateInitialPacks()
     {
         lastPackZPosition = 30;
         while (CanGeneratePack()) GeneratePack();
+    }
+
+    private bool CanGenerateVehicle()
+    {
+        return lastVehicleZPosition + vehicleMinDistance < player.transform.position.z - nbSections / 2 * sectionSize;
+    }
+
+    private void GenerateInitialVehicles()
+    {
+        lastVehicleZPosition = player.transform.position.z - nbSections / 2 * sectionSize;
+        while (lastVehicleZPosition < -150)
+        {
+            GenerateVehicle();
+            lastVehicleZPosition += vehicleMinDistance;
+        }
+
+        lastVehicleZPosition = player.transform.position.z - nbSections / 2 * sectionSize;
     }
 
     private void UpdateSections()
@@ -237,5 +258,16 @@ public class GenerateLevel : MonoBehaviour
         Instantiate(gameObject2, position2, gameObject2.transform.rotation);
         Instantiate(gameObject3, position3, gameObject3.transform.rotation);
         lastPackZPosition = zPosition;
+    }
+
+    private void GenerateVehicle()
+    {
+        float zPosition = lastVehicleZPosition + UnityEngine.Random.Range(vehicleMinDistance, vehicleMinDistance * 2);
+        RoadPosition roadPosition = GetRandomRoadPosition(new RoadPosition[0]);
+        int random = UnityEngine.Random.Range(0, vehiclesPrefabs.Length);
+        Vector3 position = new Vector3(LevelBoundary.laneSize * (int)roadPosition, 0, zPosition) + gameObject.transform.position;
+
+        Instantiate(vehiclesPrefabs[random], position, vehiclesPrefabs[random].transform.rotation);
+        lastVehicleZPosition = zPosition;
     }
 }
