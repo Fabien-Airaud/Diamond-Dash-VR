@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7236788407464228524}
-  - component: {fileID: 7617426920598748086}
   m_Layer: 0
   m_Name: Barrier Diamonds Under
   m_TagString: Untagged
@@ -34,19 +33,6 @@ Transform:
   - {fileID: 4174990465875332657}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7617426920598748086
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7229481754497664024}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea4a428c3f323f04fb0227a7083787f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
 --- !u!1001 &2725180729577696893
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,6 +234,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  distanceToDestroy: 10
+  timeToDisappear: 1.5
 --- !u!114 &5233474982875973835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,3 +249,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  distanceToDestroy: 10
+  timeToDisappear: 1.5
