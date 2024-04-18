@@ -1,9 +1,13 @@
+using System.Collections;
 using UnityEngine;
 
 public class Destroyer : MonoBehaviour
 {
     public GameObject player;
-    public static float distanceToDestroy = 100;
+    public float distanceToDestroy = 10;
+    public float timeToDisappear = 1.5f;
+
+    private bool isDisappearing = false;
 
 
     void Start()
@@ -13,9 +17,31 @@ public class Destroyer : MonoBehaviour
 
     void Update()
     {
-        if (player.transform.position.z - transform.position.z > distanceToDestroy)
+        if (ToDestroy()) Disappear();
+    }
+
+
+    private bool ToDestroy()
+    {
+        if (gameObject.CompareTag("Vehicle")) return player.transform.position.z - transform.position.z < -distanceToDestroy;
+        return player.transform.position.z - transform.position.z > distanceToDestroy;
+    }
+
+    private IEnumerator DiseappearRoutine()
+    {
+        isDisappearing = true;
+        float elapsedTime = 0;
+
+        while (elapsedTime < timeToDisappear)
         {
-            Destroy(gameObject);
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, elapsedTime / timeToDisappear);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+    }
+
+    public void Disappear()
+    {
+        if (!isDisappearing) StartCoroutine(DiseappearRoutine());
     }
 }
